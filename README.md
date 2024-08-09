@@ -17,7 +17,7 @@ The most based Discord client mod
 
 ## Installing / Uninstalling
 
-Visit https://vencord.dev/download
+Visit https://docs.vencord.dev/installing/
 
 ## Disclaimer
 
