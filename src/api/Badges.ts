@@ -7,6 +7,10 @@
 import ErrorBoundary from "@components/ErrorBoundary";
 import { ComponentType, HTMLProps } from "react";
 
+import Plugins from "~plugins";
+
+// must be kept or it breaks Vencord for some reason
+(Plugins as unknown);
 
 export const enum BadgePosition {
     START,
