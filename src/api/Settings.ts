@@ -1,27 +1,13 @@
 /*
- * Vencord, a modification for Discord's desktop app
- * Copyright (c) 2022 Vendicated and contributors
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
+ * Vencord without rainbows, a Discord client mod
+ * Copyright (c) 2024 LockBlock-dev and Vencord contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 
-import { debounce } from "@shared/debounce";
 import { SettingsStore as SettingsStoreClass } from "@shared/SettingsStore";
 import { localStorage } from "@utils/localStorage";
 import { Logger } from "@utils/Logger";
 import { mergeDefaults } from "@utils/mergeDefaults";
-import { putCloudSettings } from "@utils/settingsSync";
 import { DefinedSettings, OptionType, SettingsChecks, SettingsDefinition } from "@utils/types";
 import { React } from "@webpack/common";
 
@@ -67,13 +53,6 @@ export interface Settings {
         useNative: "always" | "never" | "not-focused";
         logLimit: number;
     };
-
-    cloud: {
-        authenticated: boolean;
-        url: string;
-        settingsSync: boolean;
-        settingsSyncVersion: number;
-    };
 }
 
 const DefaultSettings: Settings = {
@@ -97,25 +76,10 @@ const DefaultSettings: Settings = {
         useNative: "not-focused",
         logLimit: 50
     },
-
-    cloud: {
-        authenticated: false,
-        url: "https://api.vencord.dev/",
-        settingsSync: false,
-        settingsSyncVersion: 0
-    }
 };
 
 const settings = !IS_REPORTER ? VencordNative.settings.get() : {} as Settings;
 mergeDefaults(settings, DefaultSettings);
-
-const saveSettingsOnFrequentAction = debounce(async () => {
-    if (Settings.cloud.settingsSync && Settings.cloud.authenticated) {
-        await putCloudSettings();
-        delete localStorage.Vencord_settingsDirty;
-    }
-}, 60_000);
-
 
 export const SettingsStore = new SettingsStoreClass(settings, {
     readOnly: true,
@@ -158,9 +122,7 @@ export const SettingsStore = new SettingsStoreClass(settings, {
 
 if (!IS_REPORTER) {
     SettingsStore.addGlobalChangeListener((_, path) => {
-        SettingsStore.plain.cloud.settingsSyncVersion = Date.now();
         localStorage.Vencord_settingsDirty = true;
-        saveSettingsOnFrequentAction();
         VencordNative.settings.set(SettingsStore.plain, path);
     });
 }
