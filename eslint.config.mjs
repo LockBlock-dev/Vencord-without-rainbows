@@ -1,7 +1,12 @@
 /*
  * Vencord without rainbows, a Discord client mod
- * Copyright (c) 2024 LockBlock-dev and Vencord contributors
+ * Copyright (c) 2024 LockBlock-dev and contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
+ *
+ * This file includes work covered by the following copyright and permission notices:
+ *
+ *     Copyright (c) 2023 Vendicated and contributors
+ *     SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 // @ts-check
@@ -44,24 +49,6 @@ export default tseslint.config(
             },
         },
         rules: {
-            /*
-             * Since it's only been a month and Vencord has already been stolen
-             * by random skids who rebranded it to "AlphaCord" and erased all license
-             * information
-             */
-            "simple-header/header": [
-                "error",
-                {
-                    files: ["scripts/header-new.txt", "scripts/header-old.txt"],
-                    templates: {
-                        author: [
-                            ".*",
-                            "LockBlock-dev and Vencord contributors",
-                        ],
-                    },
-                },
-            ],
-
             // Style Rules
             "@stylistic/jsx-quotes": ["error", "prefer-double"],
             "@stylistic/quotes": ["error", "double", { avoidEscape: true }],

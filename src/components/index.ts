@@ -1,7 +1,12 @@
 /*
  * Vencord without rainbows, a Discord client mod
- * Copyright (c) 2024 LockBlock-dev and Vencord contributors
+ * Copyright (c) 2024 LockBlock-dev and contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
+ *
+ * This file includes work covered by the following copyright and permission notices:
+ *
+ *     Copyright (c) 2024 Vendicated and contributors
+ *     SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 export * from "./Badge";

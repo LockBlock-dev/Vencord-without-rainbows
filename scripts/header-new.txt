@@ -1,3 +1,0 @@
-Vencord without rainbows, a Discord client mod
-Copyright (c) {year} {author}
-SPDX-License-Identifier: AGPL-3.0-or-later
