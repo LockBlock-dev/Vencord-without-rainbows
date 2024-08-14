@@ -96,7 +96,7 @@ export const removeChatBarButton = (id: string) => buttonFactories.delete(id);
 
 export interface ChatBarButtonProps {
     children: ReactNode;
-    tooltip: string;
+    tooltip?: string;
     onClick: MouseEventHandler<HTMLButtonElement>;
     onContextMenu?: MouseEventHandler<HTMLButtonElement>;
     buttonProps?: Omit<HTMLProps<HTMLButtonElement>, "size" | "onClick" | "onContextMenu">;
