@@ -13,9 +13,9 @@ import risibankPicker from "./Picker";
 import { hasEmbedPermission } from "./utils";
 
 export default definePlugin({
-    name: PLUGIN_NAME,
+    name: "RisiBank",
     description: "Brings RisiBank to the Discord client",
-    version: "1.0.0",
+    version: "1.1.0",
     authors: [{
         name: "LockBlock",
         id: 926900384000249867n
