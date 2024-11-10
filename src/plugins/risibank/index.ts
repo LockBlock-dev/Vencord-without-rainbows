@@ -22,32 +22,27 @@ export default definePlugin({
     }],
     dependencies: ["ChatInputButtonAPI"],
     patches: [{
-        // credits to ArjixWasTaken for the regex
-        // https://github.com/ArjixWasTaken/Vencord/blob/69b0f4b2b4e3d84987c3c162316c461334febdfe/src/plugins/moreStickers/index.tsx#L80-L98
-        find: ".Messages.EXPRESSION_PICKER_GIF",
+        find: "#{intl::EXPRESSION_PICKER_GIF}",
         replacement: {
-            match: /role:"tablist",.{10,20}\.Messages\.EXPRESSION_PICKER_CATEGORIES_A11Y_LABEL,children:(\[.*?\)\]}\)}\):null,)(.*?closePopout:\w.*?:null)/,
-            replace: m => {
-                const stickerTabRegex = /\w{1,2}\?(\(.+?\))\((\w{1,2}),.*?isActive:(\w{1,2})==.*?children:.{1,10}Messages.EXPRESSION_PICKER_STICKER.*?:null/;
-                const res = m.replace(stickerTabRegex, (_m, jsx, tabHeaderComp, currentTab) => {
-                    const isActive = `${currentTab}==="${EXPRESSION_PICKER_VIEW}"`;
-                    return (
-                        "$self.hasEmbedPermission()?" +
-                        `${jsx}(${tabHeaderComp},{` +
-                        `id:"${EXPRESSION_PICKER_VIEW}-picker-tab",` +
-                        `"aria-controls":"${EXPRESSION_PICKER_VIEW}-picker-tab-panel",` +
-                        `"aria-selected":${isActive},` +
-                        `isActive:${isActive},` +
-                        `viewType:"${EXPRESSION_PICKER_VIEW}",` +
-                        `children:${jsx}("div",{children:"${PLUGIN_NAME}"})` +
-                        "})" +
-                        `:null,${_m}`
-                    );
-                });
+            match: /(role:"tablist","aria-label":\i\.\i\.string\(\i\.\i#{intl::EXPRESSION_PICKER_CATEGORIES_A11Y_LABEL}\),children:\[)(\i\?(\(0,\i\.jsx\))\((\i),{.*?isActive:(\i)===.*?children:\i\.\i\.string\(\i\.\i#{intl::EXPRESSION_PICKER_GIF}\)}\):null.*?\))(\]}\)}\):null,)(\i===.*?\.STICKER&&\i\?\(0,\i\.jsx\)\(.*?(\{.*?,onSelectSticker:.*?\})\):null)/,
+            replace: (_, start, navlistRest, jsx, tabHeaderComp, currentTab, end, shouldShowStickerView, expressionPickerProps) => {
+                const isActive = `${currentTab}==="${EXPRESSION_PICKER_VIEW}"`;
 
-                return res.replace(/:null,((\w{1,2})===.*?\.STICKER&&\w{1,2}\?(\(.*?\)).*?(\{.*?,onSelectSticker:.*?\})\):null)/, (_, _m, currentTab, jsx, props) => {
-                    return `:null,${currentTab}==="${EXPRESSION_PICKER_VIEW}"?${jsx}($self.risibankPicker,${props}):null,${_m}`;
-                });
+                return (
+                    start +
+                    "$self.hasEmbedPermission()?" +
+                    `${jsx}(${tabHeaderComp},{` +
+                    `id:"${EXPRESSION_PICKER_VIEW}-picker-tab",` +
+                    `"aria-controls":"${EXPRESSION_PICKER_VIEW}-picker-tab-panel",` +
+                    `"aria-selected":${isActive},` +
+                    `isActive:${isActive},` +
+                    `viewType:"${EXPRESSION_PICKER_VIEW}",` +
+                    `children:${jsx}("div",{children:"${PLUGIN_NAME}"})` +
+                    "})" +
+                    `:null,${navlistRest}` +
+                    end +
+                    `${currentTab}==="${EXPRESSION_PICKER_VIEW}"?${jsx}($self.risibankPicker,${expressionPickerProps}):null,${shouldShowStickerView}`
+                );
             }
         },
     }],
