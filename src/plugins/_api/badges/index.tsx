@@ -89,8 +89,10 @@ export default definePlugin({
         }
     },
 
+    userProfileBadge: ContributorBadge,
+
     async start() {
-        Vencord.Api.Badges.addBadge(ContributorBadge);
+        Vencord.Api.Badges.addProfileBadge(ContributorBadge);
     },
 
     getBadges(props: { userId: string; user?: User; guildId: string; }) {
