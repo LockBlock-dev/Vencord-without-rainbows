@@ -62,7 +62,7 @@ export async function downloadSettingsBackup() {
     }
 }
 
-const toast = (type: number, message: string) =>
+const toast = (type: string, message: string) =>
     Toasts.show({
         type,
         message,

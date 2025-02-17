@@ -30,7 +30,7 @@ import { Margins } from "@utils/margins";
 import { identity } from "@utils/misc";
 import { relaunch, showItemInFolder } from "@utils/native";
 import { useAwaiter } from "@utils/react";
-import { Button, Forms, React, Select, Switch } from "@webpack/common";
+import { Button, Forms, React, Select, Switch, UserStore } from "@webpack/common";
 
 import { Flex, FolderIcon, GithubIcon, LogIcon, PaintbrushIcon, RestartIcon } from "..";
 import { openNotificationSettingsModal } from "./NotificationSettings";
@@ -41,7 +41,6 @@ type KeysOfType<Object, Type> = {
     [K in keyof Object]: Object[K] extends Type ? K : never;
 }[keyof Object];
 
-
 function VencordSettings() {
     const [settingsDir, ,] = useAwaiter(VencordNative.settings.getSettingsDir, {
         fallbackValue: "Loading..."
@@ -51,6 +50,8 @@ function VencordSettings() {
     const isWindows = navigator.platform.toLowerCase().startsWith("win");
     const isMac = navigator.platform.toLowerCase().startsWith("mac");
     const needsVibrancySettings = IS_DISCORD_DESKTOP && isMac;
+
+    const user = UserStore.getCurrentUser();
 
     const Switches: Array<false | {
         key: KeysOfType<typeof settings, boolean>;
