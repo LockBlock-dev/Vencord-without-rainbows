@@ -24,25 +24,13 @@
 
 import "./fixDiscordBadgePadding.css";
 
-import { _getBadges, BadgePosition, BadgeUserArgs, ProfileBadge } from "@api/Badges";
+import { _getBadges, BadgeUserArgs, ProfileBadge } from "@api/Badges";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { openContributorModal } from "@components/PluginSettings/ContributorModal";
 import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
-import { isPluginDev } from "@utils/misc";
 import definePlugin from "@utils/types";
-import { Toasts, UserStore } from "@webpack/common";
+import { Toasts } from "@webpack/common";
 import { User } from "discord-types/general";
-
-const CONTRIBUTOR_BADGE = "https://vencord.dev/assets/favicon.png";
-
-const ContributorBadge: ProfileBadge = {
-    description: "Vencord Contributor",
-    image: CONTRIBUTOR_BADGE,
-    position: BadgePosition.START,
-    shouldShow: ({ userId }) => isPluginDev(userId),
-    onClick: (_, { userId }) => openContributorModal(UserStore.getUser(userId))
-};
 
 export default definePlugin({
     name: "BadgeAPI",
@@ -87,11 +75,7 @@ export default definePlugin({
         }
     },
 
-    userProfileBadge: ContributorBadge,
-
-    async start() {
-        Vencord.Api.Badges.addProfileBadge(ContributorBadge);
-    },
+    async start() { },
 
     getBadges(props: { userId: string; user?: User; guildId: string; }) {
         if (!props) return [];
