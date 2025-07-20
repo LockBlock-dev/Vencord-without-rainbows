@@ -28,8 +28,7 @@ import { openPluginModal } from "@components/PluginSettings/PluginModal";
 import { gitRemote } from "@shared/vencordUserAgent";
 import { Margins } from "@utils/margins";
 import { identity } from "@utils/misc";
-import { relaunch, showItemInFolder } from "@utils/native";
-import { useAwaiter } from "@utils/react";
+import { relaunch } from "@utils/native";
 import { Button, Forms, React, Select, Switch, UserStore } from "@webpack/common";
 
 import { Flex, FolderIcon, GithubIcon, LogIcon, PaintbrushIcon, RestartIcon } from "..";
@@ -42,9 +41,6 @@ type KeysOfType<Object, Type> = {
 }[keyof Object];
 
 function VencordSettings() {
-    const [settingsDir, ,] = useAwaiter(VencordNative.settings.getSettingsDir, {
-        fallbackValue: "Loading..."
-    });
     const settings = useSettings();
 
     const isWindows = navigator.platform.toLowerCase().startsWith("win");
@@ -120,7 +116,7 @@ function VencordSettings() {
                         <QuickAction
                             Icon={FolderIcon}
                             text="Open Settings Folder"
-                            action={() => showItemInFolder(settingsDir)}
+                            action={() => VencordNative.settings.openFolder()}
                         />
                     )}
                     <QuickAction
