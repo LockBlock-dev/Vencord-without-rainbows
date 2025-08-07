@@ -23,12 +23,7 @@
  */
 
 import { Settings } from "@api/Settings";
-import BackupAndRestoreTab from "@components/VencordSettings/BackupAndRestoreTab";
-import PatchHelperTab from "@components/VencordSettings/PatchHelperTab";
-import PluginsTab from "@components/VencordSettings/PluginsTab";
-import ThemesTab from "@components/VencordSettings/ThemesTab";
-import UpdaterTab from "@components/VencordSettings/UpdaterTab";
-import VencordTab from "@components/VencordSettings/VencordTab";
+import { BackupAndRestoreTab, PatchHelperTab, PluginsTab, ThemesTab, UpdaterTab, VencordTab } from "@components/settings/tabs";
 import { Devs } from "@utils/constants";
 import { getIntlMessage } from "@utils/discord";
 import definePlugin, { OptionType } from "@utils/types";
@@ -70,8 +65,7 @@ export default definePlugin({
                     replace: (_, sectionTypes, commaOrSemi, elements, element) => `${commaOrSemi} $self.addSettings(${elements}, ${element}, ${sectionTypes}) ${commaOrSemi}`
                 },
                 {
-                    // FIXME(Bundler change related): Remove old compatiblity once enough time has passed
-                    match: /({(?=.+?function (\i).{0,160}(\i)=\i\.useMemo.{0,140}return \i\.useMemo\(\(\)=>\i\(\3).+?(?:function\(\){return |\(\)=>))\2/,
+                    match: /({(?=.+?function (\i).{0,160}(\i)=\i\.useMemo.{0,140}return \i\.useMemo\(\(\)=>\i\(\3).+?\(\)=>)\2/,
                     replace: (_, rest, settingsHook) => `${rest}$self.wrapSettingsHook(${settingsHook})`
                 }
             ]
@@ -95,7 +89,7 @@ export default definePlugin({
                 className: "vc-settings-header"
             },
             {
-                section: "VencordSettings",
+                section: "settings/tabs",
                 label: "Vencord",
                 element: VencordTab,
                 className: "vc-settings"
@@ -119,7 +113,7 @@ export default definePlugin({
                 className: "vc-updater"
             },
             {
-                section: "VencordSettingsSync",
+                section: "settings/tabsSync",
                 label: "Backup & Restore",
                 element: BackupAndRestoreTab,
                 className: "vc-backup-restore"
