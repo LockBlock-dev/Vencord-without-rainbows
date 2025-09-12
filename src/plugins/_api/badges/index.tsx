@@ -34,7 +34,7 @@ import { User } from "discord-types/general";
 
 export default definePlugin({
     name: "BadgeAPI",
-    description: "API to add badges to users.",
+    description: "API to add badges to users",
     authors: [Devs.Megu, Devs.Ven, Devs.TheSun],
     required: true,
     patches: [
@@ -56,10 +56,10 @@ export default definePlugin({
                     match: /(?<="aria-label":(\i)\.description,.{0,200})children:/,
                     replace: "children:$1.component?$self.renderBadgeComponent({...$1}) :"
                 },
-                // conditionally override their onClick with badge.onClick if it exists
+                // handle onClick and onContextMenu
                 {
                     match: /href:(\i)\.link/,
-                    replace: "...($1.onClick&&{onClick:vcE=>$1.onClick(vcE,$1)}),$&"
+                    replace: "...$self.getBadgeMouseEventHandlers($1),$&"
                 }
             ]
         }
@@ -94,4 +94,18 @@ export default definePlugin({
         const Component = badge.component!;
         return <Component {...badge} />;
     }, { noop: true }),
+
+
+    getBadgeMouseEventHandlers(badge: ProfileBadge & BadgeUserArgs) {
+        const handlers = {} as Record<string, (e: React.MouseEvent) => void>;
+
+        if (!badge) return handlers; // sanity check
+
+        const { onClick, onContextMenu } = badge;
+
+        if (onClick) handlers.onClick = e => onClick(e, badge);
+        if (onContextMenu) handlers.onContextMenu = e => onContextMenu(e, badge);
+
+        return handlers;
+    },
 });
