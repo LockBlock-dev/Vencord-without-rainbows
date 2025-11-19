@@ -1,7 +1,7 @@
 {
     "name": "vencord-without-rainbows",
     "private": "true",
-    "version": "1.13.4",
+    "version": "1.13.6",
     "description": "The most based Discord client mod",
     "homepage": "https://github.com/LockBlock-dev/Vencord-without-rainbows#readme",
     "bugs": {
