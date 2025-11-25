@@ -1,32 +1,28 @@
 /*
- * Vencord without rainbows, a Discord client mod
- * Copyright (c) 2024 LockBlock-dev and contributors
- * SPDX-License-Identifier: AGPL-3.0-or-later
- *
- * This file incorporates work covered by the following copyright and
- * permission notice:
- *
- *     Copyright (c) 2022 Vendicated and contributors
- *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
- *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU General Public License for more details.
- *
- *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * Vencord, a Discord client mod
+ * Copyright (c) 2025 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 import { PlainSettings } from "@api/Settings";
+import { Logger } from "@utils/Logger";
+import { chooseFile, saveFile } from "@utils/web";
 import { moment, Toasts } from "@webpack/common";
 
-import { Logger } from "./Logger";
-import { chooseFile, saveFile } from "./web";
+const toast = (type: string, message: string) =>
+    Toasts.show({
+        type,
+        message,
+        id: Toasts.genId()
+    });
+
+const toastSuccess = () =>
+    toast(Toasts.Type.SUCCESS, "Settings successfully imported. Restart to apply changes!");
+
+const toastFailure = (err: any) =>
+    toast(Toasts.Type.FAILURE, `Failed to import settings: ${String(err)}`);
+
+const logger = new Logger("SettingsSync:Offline", "#39b7e0");
 
 export async function importSettings(data: string) {
     try {
@@ -62,19 +58,6 @@ export async function downloadSettingsBackup() {
     }
 }
 
-const toast = (type: string, message: string) =>
-    Toasts.show({
-        type,
-        message,
-        id: Toasts.genId()
-    });
-
-const toastSuccess = () =>
-    toast(Toasts.Type.SUCCESS, "Settings successfully imported. Restart to apply changes!");
-
-const toastFailure = (err: any) =>
-    toast(Toasts.Type.FAILURE, `Failed to import settings: ${String(err)}`);
-
 export async function uploadSettingsBackup(showToast = true): Promise<void> {
     if (IS_DISCORD_DESKTOP) {
         const [file] = await DiscordNative.fileManager.openFiles({
@@ -89,7 +72,7 @@ export async function uploadSettingsBackup(showToast = true): Promise<void> {
                 await importSettings(new TextDecoder().decode(file.data));
                 if (showToast) toastSuccess();
             } catch (err) {
-                new Logger("SettingsSync").error(err);
+                logger.error(err);
                 if (showToast) toastFailure(err);
             }
         }
@@ -103,7 +86,7 @@ export async function uploadSettingsBackup(showToast = true): Promise<void> {
                 await importSettings(reader.result as string);
                 if (showToast) toastSuccess();
             } catch (err) {
-                new Logger("SettingsSync").error(err);
+                logger.error(err);
                 if (showToast) toastFailure(err);
             }
         };

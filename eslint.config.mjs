@@ -23,8 +23,8 @@ export default tseslint.config(
         files: ["src/**/*.{tsx,ts,mts,mjs,js,jsx}", "eslint.config.mjs"],
         settings: {
             react: {
-                version: "18"
-            }
+                version: "18",
+            },
         },
         ...react.configs.flat.recommended,
         rules: {
@@ -33,7 +33,7 @@ export default tseslint.config(
             "react/prop-types": "off",
             "react/display-name": "off",
             "react/no-unescaped-entities": "off",
-        }
+        },
     },
     {
         files: ["src/**/*.{tsx,ts,mts,mjs,js,jsx}", "eslint.config.mjs"],
@@ -43,7 +43,7 @@ export default tseslint.config(
             "@typescript-eslint": tseslint.plugin,
             "simple-import-sort": simpleImportSort,
             "unused-imports": unusedImports,
-            "path-alias": pathAlias
+            "path-alias": pathAlias,
         },
         settings: {
             "import/resolver": {
@@ -86,7 +86,7 @@ export default tseslint.config(
             "@stylistic/no-extra-semi": "error",
 
             // TS Rules
-            "@stylistic/func-call-spacing": ["error", "never"],
+            "@stylistic/function-call-spacing": ["error", "never"],
 
             // ESLint Rules
             yoda: "error",
@@ -107,14 +107,14 @@ export default tseslint.config(
             "@typescript-eslint/dot-notation": [
                 "error",
                 {
-                    "allowPrivateClassPropertyAccess": true,
-                    "allowProtectedClassPropertyAccess": true
-                }
+                    allowPrivateClassPropertyAccess: true,
+                    allowProtectedClassPropertyAccess: true,
+                },
             ],
             "no-useless-escape": [
                 "error",
                 {
-                    extra: "i",
+                    allowRegexCharacters: ["i"],
                 },
             ],
             "no-fallthrough": "error",
