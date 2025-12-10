@@ -119,7 +119,7 @@ function VencordSettings() {
     const user = UserStore?.getCurrentUser();
 
     return (
-        <SettingsTab title="Vencord Settings">
+        <SettingsTab>
             <section>
                 <Forms.FormTitle tag="h5">Quick Actions</Forms.FormTitle>
 
