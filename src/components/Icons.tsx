@@ -473,20 +473,6 @@ export function PluginsIcon(props: IconProps) {
     );
 }
 
-export function CloudIcon(props: IconProps) {
-    return (
-        <Icon
-            {...props}
-            viewBox="0 0 24 24"
-        >
-            <path
-                fill={props.fill || "currentColor"}
-                d="M16.8333 19H5.16667C3.16667 19 1.5 17.3333 1.5 15.3333C1.5 13.4 2.96667 11.8667 4.83333 11.6667V11.3333C4.83333 7.86667 7.7 5 11.1667 5C14.0333 5 16.5667 6.93333 17.3 9.66667C19.7 9.86667 21.5 11.8667 21.5 14.3333C21.5 16.9333 19.4333 19 16.8333 19Z"
-            />
-        </Icon>
-    );
-}
-
 export function BackupRestoreIcon(props: IconProps) {
     return (
         <Icon
