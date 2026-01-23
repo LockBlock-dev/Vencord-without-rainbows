@@ -7,7 +7,7 @@
 import { addChatBarButton, removeChatBarButton } from "@api/ChatButtons";
 import definePlugin from "@utils/types";
 
-import ChatBarButton from "./Button";
+import { RisiBankButton as ChatBarButton, RisiBankIcon } from "./Button";
 import { COMPONENT_INSTANCE_VARIABLE_NAME, EXPRESSION_PICKER_VIEW, PLUGIN_NAME } from "./constants";
 import risibankPicker from "./Picker";
 import { hasEmbedPermission } from "./utils";
@@ -71,7 +71,7 @@ export default definePlugin({
         }],
 
     start: () => {
-        addChatBarButton(PLUGIN_NAME, ChatBarButton);
+        addChatBarButton(PLUGIN_NAME, ChatBarButton, RisiBankIcon);
     },
     stop: () => {
         removeChatBarButton(PLUGIN_NAME);
