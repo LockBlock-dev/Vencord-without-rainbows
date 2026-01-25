@@ -22,7 +22,8 @@ export const RisiBankButton: ChatBarButtonFactory = ({ channel, disabled, isMain
             onClick={() => {
                 ExpressionPickerStore.toggleExpressionPicker(
                     EXPRESSION_PICKER_VIEW,
-                    type
+                    type,
+                    channel.id,
                 );
             }}
             buttonProps={{

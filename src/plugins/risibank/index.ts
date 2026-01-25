@@ -38,14 +38,11 @@ export default definePlugin({
         {
             find: "#{intl::EXPRESSION_PICKER_GIF}",
             replacement: {
-                match: /(positionLayerDefaultAlignRight),(\i=\i\?(\(0,\i\.jsx\))\((\i),{.*isActive:(\i)===.*children:\i\.\i\.\i\(\i\.\i#{intl::EXPRESSION_PICKER_GIF}\)}\))/,
-                replace: (_, start, gifNav, jsx, tabHeaderComponent, currentTab, idk) => {
-                    console.log(gifNav);
-
+                match: /(\i=\i\?)((\(0,\i\.jsx\))\((\i),{.*?isActive:(\i)===.*?children:.*?}\)}\):null)/,
+                replace: (_, startGifTernary, gifNav, jsx, tabHeaderComponent, currentTab) => {
                     const isActive = `${currentTab}==="${EXPRESSION_PICKER_VIEW}"`;
 
                     return (
-                        `${start},` +
                         `${COMPONENT_INSTANCE_VARIABLE_NAME}=$self.hasEmbedPermission()?` +
                         `${jsx}(${tabHeaderComponent},{` +
                         `id:"${EXPRESSION_PICKER_VIEW}-picker-tab",` +
@@ -55,6 +52,7 @@ export default definePlugin({
                         `viewType:"${EXPRESSION_PICKER_VIEW}",` +
                         `children:${jsx}("div",{children:"${PLUGIN_NAME}"})` +
                         "}):null," +
+                        startGifTernary +
                         gifNav
                     );
                 }
