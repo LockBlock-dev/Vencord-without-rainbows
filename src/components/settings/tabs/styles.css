@@ -33,11 +33,3 @@
 .vc-settings-theme-links:focus {
     background-color: var(--background-base-lowest);
 }
-
-.vc-settings-modal-root {
-    background: var(--background-base-low);
-}
-
-.vc-settings-modal {
-    padding-bottom: 1em;
-}

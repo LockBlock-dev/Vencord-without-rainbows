@@ -26,13 +26,14 @@ import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
 import { openPluginModal } from "@components/settings/tabs/plugins/PluginModal";
 import SettingsPlugin from "@plugins/_core/settings";
 import { gitRemote } from "@shared/vencordUserAgent";
-import { IS_MAC, IS_WINDOWS } from "@utils/constants";
+import { IS_WINDOWS } from "@utils/constants";
 import { Margins } from "@utils/margins";
 import { relaunch } from "@utils/native";
-import { Alerts, Forms, React, UserStore } from "@webpack/common";
+import { ConfirmModal, Forms, openModal, React, UserStore } from "@webpack/common";
 
-import { VibrancySettings } from "./MacVibrancySettings";
+import { MacOSVibrancySettings } from "./MacVibrancySettings";
 import { NotificationSection } from "./NotificationSettings";
+import { WindowsMaterialSettings } from "./WindowsMaterialSettings";
 
 type KeysOfType<Object, Type> = {
     [K in keyof Object]: Object[K] extends Type ? K : never;
@@ -100,13 +101,17 @@ function Switches() {
                     settings[key] = v;
 
                     if (restartRequired) {
-                        Alerts.show({
-                            title: "Restart Required",
-                            body: "A restart is required to apply this change",
-                            confirmText: "Restart now",
-                            cancelText: "Later!",
-                            onConfirm: relaunch
-                        });
+                        openModal(props => (
+                            <ConfirmModal
+                                {...props}
+                                title="Restart Required"
+                                subtitle="A restart is required to apply this change"
+                                confirmText="Restart now"
+                                cancelText="Later!"
+                                variant="primary"
+                                onConfirm={relaunch}
+                            />
+                        ));
                     }
                 }}
             />
@@ -115,10 +120,6 @@ function Switches() {
 }
 
 function VencordSettings() {
-    const needsVibrancySettings = IS_DISCORD_DESKTOP && IS_MAC;
-
-    const user = UserStore?.getCurrentUser();
-
     return (
         <SettingsTab>
             <section>
@@ -172,7 +173,8 @@ function VencordSettings() {
             </section>
 
 
-            {needsVibrancySettings && <VibrancySettings />}
+            <MacOSVibrancySettings />
+            <WindowsMaterialSettings />
 
             <NotificationSection />
         </SettingsTab>
