@@ -33,3 +33,8 @@
 .vc-settings-theme-links:focus {
     background-color: var(--background-base-lowest);
 }
+
+.vc-settings-switches {
+    display: grid;
+    gap: 8px;
+}
