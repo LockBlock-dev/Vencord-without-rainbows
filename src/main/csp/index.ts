@@ -68,11 +68,14 @@ export const CspPolicies: PolicyMap = {
     "dearrow-thumb.ajay.app": ImageSrc, // Dearrow Thumbnail CDN
     "usrbg.is-hardly.online": ImageSrc, // USRBG API
     "icons.duckduckgo.com": ImageSrc, // DuckDuckGo Favicon API (Reverse Image Search)
+
     // Mandatory for /src/plugins/risibank
     "risibank.fr": FrameSrc,
-    // Tenor, used by TenorSearch plugin and some themes
+
+    // Tenor & Giphy, used by GifProviderSwitcher plugin and some themes
     "*.tenor.com": ImageAndMediaSrc,
     "*.tenor.co": ImageAndMediaSrc,
+    "*.giphy.com": ImageAndMediaSrc,
 };
 
 const findHeader = (headers: PolicyMap, headerName: Lowercase<string>) => {
@@ -140,8 +143,12 @@ const patchCsp = (headers: PolicyMap) => {
 };
 
 export function initCsp() {
-    session.defaultSession.webRequest.onHeadersReceived(({ responseHeaders, resourceType }, cb) => {
+    session.defaultSession.webRequest.onHeadersReceived(({ responseHeaders, resourceType, url }, cb) => {
         if (responseHeaders) {
+            if (url === DESKTOP_MONACO_EDITOR_URL) {
+                const header = findHeader(responseHeaders, "content-type") ?? "content-type";
+                responseHeaders[header] = ["text/html"];
+            }
             if (resourceType === "mainFrame")
                 patchCsp(responseHeaders);
 
